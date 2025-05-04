@@ -14,13 +14,6 @@ A modern web application for managing pet adoptions with features like mood trac
 
 </div>
 
-## 🎥 Demo Video
-
-Watch the full demonstration of the Virtual Pet Adoption Center:
-
-[![Virtual Pet Adoption Center Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
-
-> Click the image above to watch the demo video
 
 ## ✨ Features
 
