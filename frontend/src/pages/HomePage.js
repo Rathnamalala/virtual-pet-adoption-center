@@ -1,6 +1,6 @@
 // src/pages/HomePage.js
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import PetList from '../components/PetList/PetList';
 import AddPetForm from '../components/AddPetForm/AddPetForm';
@@ -20,7 +20,8 @@ const HomePage = () => {
       setPets(response.data);
       checkForSadPets(response.data);
     } catch (error) {
-      toast.error('Failed to fetch pets');
+      toast.error('Failed to fetch pets. Please check if the server is running.');
+      console.error('Fetch error:', error);
     } finally {
       setLoading(false);
     }
@@ -46,7 +47,7 @@ const HomePage = () => {
       setShowAddModal(false);
       fetchPets();
     } catch (error) {
-      toast.error('Failed to add pet');
+      toast.error(error.response?.data?.error || 'Failed to add pet');
     }
   };
 
@@ -89,55 +90,65 @@ const HomePage = () => {
     }
   };
 
+  if (loading && pets.length === 0) {
+    return (
+      <Container className="text-center py-5">
+        <Spinner animation="border" role="status" variant="primary">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Container>
+    );
+  }
+
   return (
-    <Container className="py-4">
-      <Row className="mb-4">
-        <Col>
-          <h1 className="text-center mb-4">
-            <i className="fas fa-heart text-danger me-2"></i>
-            Find Your Perfect Companion
-          </h1>
-        </Col>
-      </Row>
+    <div id="pet-section" className="py-5">
+      <Container>
+        <Row className="mb-5">
+          <Col className="text-center">
+            <h2 className="display-5 fw-bold mb-3">Available Pets</h2>
+            <p className="lead text-muted">Find your perfect companion from our selection of loving pets</p>
+          </Col>
+        </Row>
 
-      <Row className="mb-4">
-        <Col md={6}>
-          <Button 
-            variant="primary" 
-            onClick={() => setShowAddModal(true)}
-            className="mb-3"
-          >
-            <i className="fas fa-plus me-2"></i>
-            Add New Pet
-          </Button>
-        </Col>
-        <Col md={6}>
-          <FilterBar 
-            selectedMood={selectedMood} 
-            onFilterChange={handleFilterChange} 
-          />
-        </Col>
-      </Row>
+        <Row className="mb-4">
+          <Col md={6}>
+            <Button 
+              variant="primary" 
+              onClick={() => setShowAddModal(true)}
+              className="mb-3"
+            >
+              <i className="fas fa-plus me-2"></i>
+              Add New Pet
+            </Button>
+          </Col>
+          <Col md={6}>
+            <FilterBar 
+              selectedMood={selectedMood} 
+              onFilterChange={handleFilterChange} 
+            />
+          </Col>
+        </Row>
 
-      <PetList
-        pets={pets}
-        loading={loading}
-        onAdopt={handleAdoptPet}
-        onDelete={handleDeletePet}
-      />
+        <PetList
+          pets={pets}
+          loading={loading}
+          onAdopt={handleAdoptPet}
+          onDelete={handleDeletePet}
+        />
 
-      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add New Pet</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <AddPetForm 
-            onSubmit={handleAddPet} 
-            onCancel={() => setShowAddModal(false)} 
-          />
-        </Modal.Body>
-      </Modal>
-    </Container>
+        <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Add New Pet</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <AddPetForm 
+              onSubmit={handleAddPet} 
+              onCancel={() => setShowAddModal(false)} 
+            />
+          </Modal.Body>
+        </Modal>
+      </Container>
+    </div>
   );
 };
 

@@ -10,6 +10,15 @@ const api = axios.create({
   },
 });
 
+// Add response interceptor for error handling
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message);
+    throw error;
+  }
+);
+
 export const petApi = {
   getAllPets: () => api.get('/'),
   getPetById: (id) => api.get(`/${id}`),

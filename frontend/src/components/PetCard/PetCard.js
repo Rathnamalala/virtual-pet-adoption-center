@@ -8,14 +8,32 @@ import { getMoodColor, getMoodIcon } from '../../utils/helpers';
 const PetCard = ({ pet, onAdopt, onDelete }) => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [isAdopting, setIsAdopting] = useState(false);
+  const [adoptedPet, setAdoptedPet] = useState(null);
 
-  const handleAdopt = () => {
-    onAdopt(pet._id);
-    setShowConfetti(true);
-    setTimeout(() => {
-      setShowConfetti(false);
-      setShowCertificate(true);
-    }, 3000);
+  const handleAdopt = async () => {
+    try {
+      setIsAdopting(true);
+      await onAdopt(pet._id);
+      
+      // Update the pet object with adoption info
+      const adoptedPetData = {
+        ...pet,
+        adopted: true,
+        adoption_date: new Date()
+      };
+      setAdoptedPet(adoptedPetData);
+      
+      setShowConfetti(true);
+      setTimeout(() => {
+        setShowConfetti(false);
+        setShowCertificate(true);
+      }, 3000);
+    } catch (error) {
+      console.error('Adoption error:', error);
+    } finally {
+      setIsAdopting(false);
+    }
   };
 
   return (
@@ -29,8 +47,8 @@ const PetCard = ({ pet, onAdopt, onDelete }) => {
         />
       )}
 
-      <Card className="pet-card shadow-sm">
-        <Card.Body>
+      <Card className="pet-card shadow-sm h-100">
+        <Card.Body className="d-flex flex-column">
           {pet.adopted && (
             <div className="adopted-overlay">
               <i className="fas fa-check-circle me-2"></i>
@@ -46,21 +64,31 @@ const PetCard = ({ pet, onAdopt, onDelete }) => {
             </Badge>
           </Card.Title>
           
-          <Card.Text>
+          <Card.Text className="flex-grow-1">
             <strong>Species:</strong> {pet.species}<br />
             <strong>Age:</strong> {pet.age} years<br />
             <strong>Personality:</strong> {pet.personality}
           </Card.Text>
           
-          <div className="d-flex justify-content-between">
+          <div className="d-flex justify-content-between mt-auto">
             {!pet.adopted && (
               <Button 
                 variant="success" 
                 onClick={handleAdopt}
                 className="me-2"
+                disabled={isAdopting}
               >
-                <i className="fas fa-home me-2"></i>
-                Adopt Me
+                {isAdopting ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Adopting...
+                  </>
+                ) : (
+                  <>
+                    <i className="fas fa-home me-2"></i>
+                    Adopt Me
+                  </>
+                )}
               </Button>
             )}
             <Button 
@@ -77,17 +105,26 @@ const PetCard = ({ pet, onAdopt, onDelete }) => {
 
       <Modal 
         show={showCertificate} 
-        onHide={() => setShowCertificate(false)}
+        onHide={() => {
+          setShowCertificate(false);
+          setAdoptedPet(null);
+        }}
         size="lg"
+        centered
       >
         <Modal.Header closeButton>
           <Modal.Title>Adoption Certificate</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AdoptionCertificate 
-            pet={pet} 
-            onClose={() => setShowCertificate(false)} 
-          />
+          {adoptedPet && (
+            <AdoptionCertificate 
+              pet={adoptedPet} 
+              onClose={() => {
+                setShowCertificate(false);
+                setAdoptedPet(null);
+              }} 
+            />
+          )}
         </Modal.Body>
       </Modal>
     </>

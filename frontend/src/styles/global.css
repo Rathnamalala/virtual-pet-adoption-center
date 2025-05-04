@@ -1,40 +1,80 @@
 /* src/styles/global.css */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #f8f9fa;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
 }
 
+/* Navbar adjustments for fixed positioning */
+body {
+  padding-top: 56px; /* Height of the navbar */
+}
+
+.navbar {
+  transition: all 0.3s ease;
+}
+
+/* Card hover effects */
 .pet-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .pet-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* Button hover effects */
+.btn {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Mood badge animations */
 .mood-badge {
   font-size: 0.9rem;
   padding: 0.5rem 1rem;
+  border-radius: 50px;
+  transition: all 0.3s ease;
 }
 
+.mood-badge:hover {
+  transform: scale(1.05);
+}
+
+/* Adopted overlay */
 .adopted-overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(40, 167, 70, 0.432);
+  background: rgba(40, 167, 69, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
-  border-radius: 0.25rem;
+  border-radius: 15px;
+  z-index: 10;
+  animation: fadeIn 0.5s ease;
 }
 
+/* Fade animations */
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
@@ -44,25 +84,129 @@ body {
   to { opacity: 1; }
 }
 
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.5rem;
+/* Improved form styling */
+.form-control, .form-select {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease;
 }
 
+.form-control:focus, .form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Filter button styling */
 .filter-btn {
   margin: 0 0.25rem;
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
 }
 
+/* Quiz container improvements */
 .quiz-container {
   max-width: 600px;
   margin: 2rem auto;
 }
 
+.quiz-container .card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Certificate styling */
 .certificate-container {
   background: white;
-  padding: 2rem;
-  border: 2px solid #007bff;
-  border-radius: 10px;
+  padding: 3rem;
+  border: 3px solid #667eea;
+  border-radius: 15px;
   margin: 2rem auto;
   max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.certificate-preview {
+  background-color: #f8f9fa;
+  border: 2px dashed #667eea !important;
+}
+
+.certificate-preview h4 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.certificate-preview p {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+/* Quiz progress bar */
+.progress {
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.progress-bar {
+  background-color: #fff;
+  color: #667eea;
+  font-size: 0.7rem;
+  line-height: 10px;
+}
+
+/* Quiz card styling */
+.quiz-container .card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.quiz-container .card-header {
+  padding: 1.5rem;
+}
+
+.quiz-container .btn-outline-primary {
+  border-width: 2px;
+  font-weight: 500;
+}
+
+.quiz-container .btn-outline-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Loading spinner */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Toast custom styling */
+.Toastify__toast {
+  border-radius: 8px;
+  font-family: inherit;
+}
+
+.Toastify__toast--success {
+  background-color: #28a745;
+}
+
+.Toastify__toast--error {
+  background-color: #dc3545;
+}
+
+.Toastify__toast--warning {
+  background-color: #ffc107;
+  color: #212529;
 }
