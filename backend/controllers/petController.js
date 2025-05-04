@@ -55,7 +55,7 @@ const petController = {
       if (!pet) {
         return res.status(404).json({ error: 'Pet not found' });
       }
-      res.json({ message: 'Pet adopted successfully', pet });
+      res.json({ message: 'Pet adopted successfully', pet: pet });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }

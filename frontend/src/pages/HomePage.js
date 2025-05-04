@@ -1,5 +1,5 @@
 // src/pages/HomePage.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Button, Modal, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import PetList from '../components/PetList/PetList';
@@ -13,7 +13,7 @@ const HomePage = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedMood, setSelectedMood] = useState('all');
 
-  const fetchPets = React.useCallback(async () => {
+  const fetchPets = useCallback(async () => {
     try {
       setLoading(true);
       const response = await petApi.getAllPets();
@@ -30,6 +30,8 @@ const HomePage = () => {
   useEffect(() => {
     fetchPets();
   }, [fetchPets]);
+
+  // Removed duplicate fetchPets function
 
   const checkForSadPets = (petList) => {
     const sadPets = petList.filter(pet => pet.mood === 'Sad' && !pet.adopted);
@@ -53,11 +55,18 @@ const HomePage = () => {
 
   const handleAdoptPet = async (petId) => {
     try {
-      await petApi.adoptPet(petId);
+      const response = await petApi.adoptPet(petId);
       toast.success('Congratulations on your new pet! 🎉');
-      fetchPets();
+      
+      // Update the pets list after a delay to allow the certificate to show
+      setTimeout(() => {
+        fetchPets();
+      }, 4000);
+      
+      return response.data;
     } catch (error) {
       toast.error('Failed to adopt pet');
+      throw error;
     }
   };
 

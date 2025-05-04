@@ -12,7 +12,7 @@ import Footer from './components/Footer/Footer';
 function App() {
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navbar bg="primary" variant="dark" expand="lg" fixed="top" className="shadow">
+      <Navbar variant="dark" expand="lg" fixed="top" className="shadow">
         <Container>
           <Navbar.Brand as={Link} to="/">
             <i className="fas fa-paw me-2"></i>

@@ -9,29 +9,32 @@ const PetCard = ({ pet, onAdopt, onDelete }) => {
   const [showCertificate, setShowCertificate] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isAdopting, setIsAdopting] = useState(false);
-  const [adoptedPet, setAdoptedPet] = useState(null);
+  const [localPet, setLocalPet] = useState(pet);
 
   const handleAdopt = async () => {
     try {
       setIsAdopting(true);
       await onAdopt(pet._id);
       
-      // Update the pet object with adoption info
-      const adoptedPetData = {
+      // Update local pet state
+      const updatedPet = {
         ...pet,
         adopted: true,
-        adoption_date: new Date()
+        adoption_date: new Date().toISOString()
       };
-      setAdoptedPet(adoptedPetData);
+      setLocalPet(updatedPet);
       
+      // Show confetti
       setShowConfetti(true);
+      
+      // After 3 seconds, hide confetti and show certificate
       setTimeout(() => {
         setShowConfetti(false);
         setShowCertificate(true);
       }, 3000);
+      
     } catch (error) {
       console.error('Adoption error:', error);
-    } finally {
       setIsAdopting(false);
     }
   };
@@ -49,29 +52,36 @@ const PetCard = ({ pet, onAdopt, onDelete }) => {
 
       <Card className="pet-card shadow-sm h-100">
         <Card.Body className="d-flex flex-column">
-          {pet.adopted && (
-            <div className="adopted-overlay">
-              <i className="fas fa-check-circle me-2"></i>
-              ADOPTED
+          <Card.Title className="d-flex justify-content-between align-items-center mb-3">
+            <span>{localPet.name}</span>
+            <div className="d-flex gap-2">
+              <Badge bg={getMoodColor(localPet.mood)} className="mood-badge">
+                <i className={`fas ${getMoodIcon(localPet.mood)} me-1`}></i>
+                {localPet.mood}
+              </Badge>
+              {localPet.adopted && (
+                <Badge bg="success" className="adopted-badge">
+                  <i className="fas fa-home me-1"></i>
+                  Adopted
+                </Badge>
+              )}
             </div>
-          )}
-          
-          <Card.Title className="d-flex justify-content-between align-items-center">
-            <span>{pet.name}</span>
-            <Badge bg={getMoodColor(pet.mood)} className="mood-badge">
-              <i className={`fas ${getMoodIcon(pet.mood)} me-1`}></i>
-              {pet.mood}
-            </Badge>
           </Card.Title>
           
           <Card.Text className="flex-grow-1">
-            <strong>Species:</strong> {pet.species}<br />
-            <strong>Age:</strong> {pet.age} years<br />
-            <strong>Personality:</strong> {pet.personality}
+            <strong>Species:</strong> {localPet.species}<br />
+            <strong>Age:</strong> {localPet.age} years<br />
+            <strong>Personality:</strong> {localPet.personality}
+            {localPet.adopted && localPet.adoption_date && (
+              <>
+                <br />
+                <strong>Adopted on:</strong> {new Date(localPet.adoption_date).toLocaleDateString()}
+              </>
+            )}
           </Card.Text>
           
           <div className="d-flex justify-content-between mt-auto">
-            {!pet.adopted && (
+            {!localPet.adopted && (
               <Button 
                 variant="success" 
                 onClick={handleAdopt}
@@ -91,10 +101,20 @@ const PetCard = ({ pet, onAdopt, onDelete }) => {
                 )}
               </Button>
             )}
+            {localPet.adopted && (
+              <Button 
+                variant="primary" 
+                onClick={() => setShowCertificate(true)}
+                className="me-2"
+              >
+                <i className="fas fa-certificate me-2"></i>
+                View Certificate
+              </Button>
+            )}
             <Button 
               variant="danger" 
-              onClick={() => onDelete(pet._id)}
-              disabled={pet.adopted}
+              onClick={() => onDelete(localPet._id)}
+              disabled={localPet.adopted}
             >
               <i className="fas fa-trash me-2"></i>
               Delete
@@ -105,26 +125,21 @@ const PetCard = ({ pet, onAdopt, onDelete }) => {
 
       <Modal 
         show={showCertificate} 
-        onHide={() => {
-          setShowCertificate(false);
-          setAdoptedPet(null);
-        }}
+        onHide={() => setShowCertificate(false)}
         size="lg"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Adoption Certificate</Modal.Title>
+        <Modal.Header closeButton className="bg-light">
+          <Modal.Title>
+            <i className="fas fa-certificate me-2 text-primary"></i>
+            Adoption Certificate
+          </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {adoptedPet && (
-            <AdoptionCertificate 
-              pet={adoptedPet} 
-              onClose={() => {
-                setShowCertificate(false);
-                setAdoptedPet(null);
-              }} 
-            />
-          )}
+        <Modal.Body className="p-0">
+          <AdoptionCertificate 
+            pet={localPet} 
+            onClose={() => setShowCertificate(false)} 
+          />
         </Modal.Body>
       </Modal>
     </>
