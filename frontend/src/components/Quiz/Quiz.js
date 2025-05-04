@@ -1,4 +1,4 @@
-// src/components/Quiz/Quiz.js
+
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Button, Alert, Spinner, ProgressBar } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';

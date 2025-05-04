@@ -1,4 +1,4 @@
-// src/components/AdoptionCertificate/AdoptionCertificate.js
+
 import React from 'react';
 import { Button, Alert } from 'react-bootstrap';
 import jsPDF from 'jspdf';

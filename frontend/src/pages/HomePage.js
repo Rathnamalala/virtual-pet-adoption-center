@@ -1,4 +1,4 @@
-// src/pages/HomePage.js
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Button, Modal, Spinner } from 'react-bootstrap';
 import { toast } from 'react-toastify';

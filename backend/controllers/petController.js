@@ -1,4 +1,4 @@
-// controllers/petController.js - Business logic
+
 const petService = require('../services/petService');
 
 const petController = {

@@ -1,4 +1,4 @@
-// src/components/FilterBar/FilterBar.js
+
 import React from 'react';
 import { ButtonGroup, Button } from 'react-bootstrap';
 

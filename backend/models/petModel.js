@@ -1,4 +1,4 @@
-// models/petModel.js - Data models
+
 const mongoose = require('mongoose');
 
 const petSchema = new mongoose.Schema({

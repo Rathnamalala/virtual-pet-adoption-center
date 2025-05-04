@@ -1,4 +1,4 @@
-// src/utils/helpers.js
+
 export const getMoodColor = (mood) => {
   switch (mood?.toLowerCase()) {
     case 'happy':

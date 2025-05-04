@@ -1,4 +1,4 @@
-// src/components/PetCard/PetCard.js
+
 import React, { useState } from 'react';
 import { Card, Button, Badge, Modal } from 'react-bootstrap';
 import Confetti from 'react-confetti';

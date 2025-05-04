@@ -1,4 +1,4 @@
-// services/petService.js - Service layer for business logic
+
 const Pet = require('../models/petModel');
 const { calculateMood } = require('../utils/moodLogic');
 

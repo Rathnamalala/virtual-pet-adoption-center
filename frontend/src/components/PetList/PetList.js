@@ -1,4 +1,4 @@
-// src/components/PetList/PetList.js
+
 import React from 'react';
 import { Row, Col, Spinner, Alert } from 'react-bootstrap';
 import PetCard from '../PetCard/PetCard';
