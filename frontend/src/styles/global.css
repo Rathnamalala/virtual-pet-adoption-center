@@ -1,0 +1,68 @@
+/* src/styles/global.css */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pet-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.pet-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mood-badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+}
+
+.adopted-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(40, 167, 70, 0.432);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.filter-btn {
+  margin: 0 0.25rem;
+}
+
+.quiz-container {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.certificate-container {
+  background: white;
+  padding: 2rem;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  margin: 2rem auto;
+  max-width: 800px;
+}
