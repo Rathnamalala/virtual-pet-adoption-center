@@ -10,7 +10,7 @@
 
 A modern web application for managing pet adoptions with features like mood tracking, personality matching, and adoption certificates.
 
-[Demo Video](#-demo-video) • [Features](#-features) • [Installation](#-installation) • [API Documentation](#-api-documentation) • [Screenshots](#-screenshots)
+ • [Features](#-features) • [Installation](#-installation) • [API Documentation](#-api-documentation) • [Screenshots](#-screenshots)
 
 </div>
 
